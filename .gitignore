@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.netlify/*
+!.netlify/features/
+!.netlify/results.md
+*.local
+*.tsbuildinfo
+.env
+.env.*

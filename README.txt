@@ -1,30 +1,27 @@
-WOODIFY — React + TypeScript website starter
+WOODIFY — Craft. Connect. Personalize.
 
-WHAT THIS IS
-- A responsive React + TypeScript website built with Vite.
-- Netlify build settings are included in netlify.toml.
-- The website is a front-end starter, not a complete order-management backend.
+React, TypeScript and Vite storefront.
 
-IMPORTANT BEFORE LAUNCH
-1. The WhatsApp number is intentionally a placeholder in src/App.tsx:
-   REPLACE_WITH_WOODIFY_NUMBER
-   It must be replaced with the official WhatsApp Business number in international format, digits only.
-2. The logo file picker currently selects a file in the browser only. It does NOT upload/store it.
-3. Orders, secure logo storage, admin login/dashboard, product management and review moderation need a backend service (for example Supabase) and must be connected before taking real orders.
-4. Do not publish fake reviews or sample customer photos as real testimonials.
+npm ci       Install the locked dependencies.
+npm run dev  Run Vite locally.
+npm run build  Type-check and produce dist/ (the deployment platform runs this automatically).
 
-NETLIFY DEPLOYMENT
-Recommended route: connect a GitHub repository to Netlify.
-- Build command: npm run build
-- Publish directory: dist
-These values are already in netlify.toml.
-A Node.js environment is needed to install dependencies and build this project.
+The application entry point is src/main.tsx. Brand contact destinations are
+configured in src/brand.ts. The supplied WhatsApp number was normalized to
+international format by removing the domestic leading zero after +94.
+Instagram and Facebook URLs can be supplied later; unverified social links are hidden.
 
-LOCAL PREVIEW (if Node.js is installed)
-  npm install
-  npm run dev
+Orders are enquiries, with no checkout or payment collection. The React form
+posts multipart data to public/__forms.html using Netlify Forms. The matching
+static form and Forms feature marker must remain in place for deploy detection.
+Logo files accept PNG/JPEG up to 5 MB. The live preview is illustrative, and
+pricing, delivery, NFC destination and artwork require confirmation.
 
-BUILD
-  npm run build
+Submissions are available through the site's Netlify Forms dashboard after
+deployment. Notification recipients are not configured by this application.
+Verify a real enquiry after deployment; local transport tests do not establish
+live receipt. No customer reviews or unverified product credentials are included.
 
-The generated site is placed in the dist folder.
+Photography: wood texture by FWStudio, Pexels photo 172289, served locally.
+Product compositions are custom CSS illustrations. Fonts: Manrope and
+Cormorant Garamond via Google Fonts. UI icons: Lucide.
