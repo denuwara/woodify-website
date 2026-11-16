@@ -1,127 +1,39 @@
-import { useMemo, useState } from "react";
-import { ArrowRight, Menu, X, Leaf, Waves, Hexagon, TreePine, Gem, Flower2, Instagram, Facebook, MessageCircle, Smartphone, ChevronDown, CheckCircle2 } from "lucide-react";
+import { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { ArrowRight, ArrowUpRight, ArrowDown, Check, CheckCircle2, Fingerprint, Leaf, Menu, MessageCircle, Plus, Radio, Sparkles, Upload, X } from 'lucide-react';
+import { brandContact } from './brand';
 
-const patterns = [
-  { name: "Ocean Waves", detail: "Flowing coastal lines", icon: Waves },
-  { name: "Honeycomb", detail: "Modern geometric cells", icon: Hexagon },
-  { name: "Forest Nature", detail: "Leaves and organic forms", icon: TreePine },
-  { name: "Wood Grain", detail: "Natural timber character", icon: Leaf },
-  { name: "Minimal Luxury", detail: "Quiet, refined simplicity", icon: Gem },
-  { name: "Floral", detail: "Soft botanical details", icon: Flower2 },
-];
-const products = ["NFC Business Card", "NFC Keychain", "Personalized Wooden Gift"];
-const finishes = ["Natural Oak", "Dark Walnut", "Golden Brown", "Matte Black", "Light Oak", "Custom"];
+const products = ['Wooden NFC Card', 'Custom Keychain', 'Personalized Gift'];
+const finishes = [{name:'Dark walnut',color:'#61432d'}, {name:'Natural oak',color:'#c2a076'}, {name:'Warm cherry',color:'#9c603d'}, {name:'Matte black',color:'#302d28'}];
+const patterns = ['Natural grain', 'Contour lines', 'Botanical', 'Minimal'];
 
-export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [product, setProduct] = useState(products[0]);
-  const [pattern, setPattern] = useState(patterns[3].name);
-  const [finish, setFinish] = useState(finishes[1]);
-  const [name, setName] = useState("");
-  const [business, setBusiness] = useState("");
-  const [contact, setContact] = useState("");
-  const [destination, setDestination] = useState("Business website");
-  const [url, setUrl] = useState("");
-  const [notes, setNotes] = useState("");
-  const [logo, setLogo] = useState<File | null>(null);
-  const [sent, setSent] = useState(false);
-
-  const waMessage = useMemo(() => [
-    "Hello WOODIFY! I would like to request a custom product.",
-    `Product: ${product}`, `Pattern: ${pattern}`, `Finish: ${finish}`,
-    `Name: ${name}`, `Business: ${business}`, `Contact: ${contact}`,
-    `NFC destination: ${destination}`, `Link/details: ${url}`,
-    `Notes: ${notes}`, `Logo selected: ${logo?.name || "No file selected"}`
-  ].join("\n"), [product, pattern, finish, name, business, contact, destination, url, notes, logo]);
-
-  function submitRequest(e: React.FormEvent) {
-    e.preventDefault();
-    setSent(true);
-    // Add the official WOODIFY WhatsApp number before launch.
-    const whatsappNumber = "REPLACE_WITH_WOODIFY_NUMBER";
-    if (/^\d{8,15}$/.test(whatsappNumber)) {
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waMessage)}`, "_blank");
-    }
-  }
-
-  return (
-    <div>
-      <div className="topline">PERSONALIZED WOODEN NFC · MADE WITH MEANING</div>
-      <header className="header">
-        <a className="brand" href="#"><span className="brand-mark">W</span><span>WOODIFY<small>CRAFT · CONNECT · PERSONALIZE</small></span></a>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X/> : <Menu/>}</button>
-        <nav className={menuOpen ? "nav open" : "nav"}>
-          <a href="#collection" onClick={() => setMenuOpen(false)}>Collection</a>
-          <a href="#patterns" onClick={() => setMenuOpen(false)}>Personalize</a>
-          <a href="#story" onClick={() => setMenuOpen(false)}>Our story</a>
-          <a className="nav-cta" href="#customize" onClick={() => setMenuOpen(false)}>Create yours <ArrowRight size={15}/></a>
-        </nav>
-      </header>
-
-      <main>
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="eyebrow"><span/> A MORE NATURAL WAY TO CONNECT</div>
-            <h1>Make your first<br/><em>impression</em> lasting.</h1>
-            <p>Thoughtfully crafted wooden NFC cards and keepsakes, personalized to tell your story — one tap at a time.</p>
-            <div className="hero-actions"><a className="button primary" href="#customize">Design your piece <ArrowRight size={17}/></a><a className="text-link" href="#collection">Explore collection <span>↗</span></a></div>
-            <div className="hero-note"><span className="note-icon"><Leaf size={17}/></span><span>Natural character. Smart connection.<br/><b>Made personal, just for you.</b></span></div>
-          </div>
-          <div className="hero-visual">
-            <div className="visual-glow"/>
-            <div className="card-photo">
-              <div className="wood-card">
-                <div className="card-corner">W.</div><div className="card-center"><div className="mini-mark">W</div><b>YOUR NAME</b><small>YOUR BUSINESS</small></div><div className="nfc-mark"><Smartphone size={20}/><span>NFC</span></div>
-              </div>
-              <div className="floating-label"><span className="pulse"/> NFC ENABLED <b>Tap to connect</b></div>
-            </div>
-            <div className="visual-caption">01 / THE SIGNATURE CARD</div>
-          </div>
-        </section>
-
-        <section className="trust-strip"><span>DESIGNED AROUND YOU</span><i/> <span>PERSONALIZED DETAILS</span><i/> <span>SMART NFC TECHNOLOGY</span><i/> <span>TIMELESS MATERIAL</span></section>
-
-        <section className="section collection" id="collection">
-          <div className="section-heading"><div><div className="eyebrow">THE WOODIFY COLLECTION</div><h2>Objects with a<br/><em>personal touch.</em></h2></div><p>From the way you introduce yourself to the gifts you give, make every detail feel considered.</p></div>
-          <div className="product-grid">
-            <article className="product-card card-one"><div className="product-image"><div className="mock-card"><b>W.</b><span>YOUR NAME</span><small>CONNECT WITH A TAP</small></div><span className="product-number">01</span></div><div className="product-meta"><div><h3>Wooden NFC Cards</h3><p>A memorable introduction, reimagined.</p></div><a href="#customize" aria-label="Customize NFC card">↗</a></div></article>
-            <article className="product-card card-two"><div className="product-image"><div className="mock-key"><span>W</span><i/></div><span className="product-number">02</span></div><div className="product-meta"><div><h3>NFC Keychains</h3><p>Your essentials, with a clever connection.</p></div><a href="#customize" aria-label="Customize keychain">↗</a></div></article>
-            <article className="product-card card-three"><div className="product-image"><div className="mock-gift"><span>W</span><small>MADE FOR YOU</small></div><span className="product-number">03</span></div><div className="product-meta"><div><h3>Personalized Gifts</h3><p>Small details. Meaningful moments.</p></div><a href="#customize" aria-label="Customize gift">↗</a></div></article>
-          </div>
-        </section>
-
-        <section className="pattern-section" id="patterns">
-          <div className="pattern-intro"><div className="eyebrow">YOUR STYLE, YOUR STORY</div><h2>Made to feel<br/><em>uniquely yours.</em></h2><p>Choose a pattern and finish that reflect your personality. Every piece begins with your idea.</p><a href="#customize" className="text-link light">Explore customization <span>↗</span></a></div>
-          <div className="pattern-grid">{patterns.map((p, i) => { const Icon = p.icon; return <button className="pattern-tile" key={p.name} onClick={() => {setPattern(p.name); document.getElementById("customize")?.scrollIntoView({behavior:"smooth"});}}><span className="pattern-symbol"><Icon size={25}/></span><span className="pattern-index">0{i+1}</span><b>{p.name}</b><small>{p.detail}</small></button>; })}</div>
-        </section>
-
-        <section className="custom-section section" id="customize">
-          <div className="section-heading"><div><div className="eyebrow">LET'S MAKE IT YOURS</div><h2>Start with an idea.<br/><em>We'll shape the details.</em></h2></div><p>Tell us what you have in mind. We'll review your request and confirm the design details with you.</p></div>
-          <div className="custom-layout">
-            <form className="custom-form" onSubmit={submitRequest}>
-              <div className="form-step"><span>01</span><div><h3>Choose your piece</h3><p>What would you like personalized?</p></div></div>
-              <label>PRODUCT<select value={product} onChange={e=>setProduct(e.target.value)}>{products.map(p=><option key={p}>{p}</option>)}</select></label>
-              <div className="form-step"><span>02</span><div><h3>Choose your style</h3><p>Pick a pattern and wood finish.</p></div></div>
-              <label>PATTERN<select value={pattern} onChange={e=>setPattern(e.target.value)}>{patterns.map(p=><option key={p.name}>{p.name}</option>)}</select></label>
-              <label>COLOUR / FINISH<select value={finish} onChange={e=>setFinish(e.target.value)}>{finishes.map(f=><option key={f}>{f}</option>)}</select></label>
-              <div className="form-step"><span>03</span><div><h3>Your details</h3><p>Share the information to personalize your piece.</p></div></div>
-              <div className="two-fields"><label>YOUR NAME<input required value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name"/></label><label>BUSINESS NAME<input value={business} onChange={e=>setBusiness(e.target.value)} placeholder="Business or brand"/></label></div>
-              <label>CONTACT NUMBER<input required value={contact} onChange={e=>setContact(e.target.value)} placeholder="+94 ..."/></label>
-              <label>WHERE SHOULD NFC CONNECT?<select value={destination} onChange={e=>setDestination(e.target.value)}><option>Business website</option><option>Personal profile</option><option>Phone number</option><option>Social media</option><option>Multiple social links</option><option>Custom URL</option></select></label>
-              <label>WEBSITE / SOCIAL LINK / DETAILS<input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://..."/></label>
-              <label>UPLOAD YOUR LOGO<input type="file" accept="image/png,image/jpeg,image/svg+xml,application/pdf" onChange={e=>setLogo(e.target.files?.[0] || null)}/><small className="field-hint">Please provide your own logo. Preferred: SVG or transparent PNG. This starter form does not upload the file to a server yet.</small></label>
-              <label>ANY OTHER DETAILS?<textarea rows={3} value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Tell us about your idea..."/></label>
-              <button className="button primary submit" type="submit">Prepare order enquiry <ArrowRight size={17}/></button>
-              {sent && <p className="success-note"><CheckCircle2 size={16}/> Your enquiry details are prepared. WhatsApp ordering will activate after the official number is configured. Please send your logo separately when contacting WOODIFY.</p>}
-            </form>
-            <aside className="preview-panel"><div className="preview-top"><span>YOUR DESIGN DIRECTION</span><span className="live-dot">● PREVIEW</span></div><div className="preview-card"><div className="preview-emblem">W</div><div className="preview-name">{business || name || "YOUR NAME"}</div><div className="preview-sub">{pattern.toUpperCase()}</div><div className="preview-nfc"><Smartphone size={19}/></div></div><div className="preview-details"><div><small>PRODUCT</small><b>{product}</b></div><div><small>PATTERN</small><b>{pattern}</b></div><div><small>FINISH</small><b>{finish}</b></div></div><p className="preview-disclaimer">Illustrative preview only. Final engraving and wood grain may vary naturally.</p></aside>
-          </div>
-        </section>
-
-        <section className="story-section" id="story"><div className="story-mark">W</div><div><div className="eyebrow">THE IDEA BEHIND WOODIFY</div><h2>Natural materials.<br/><em>Meaningful connections.</em></h2><p>We bring together the warmth of wood and the convenience of NFC to create personal pieces that are made to be used, remembered and shared.</p></div><div className="story-signature">WOODIFY <span>CRAFT · CONNECT · PERSONALIZE</span></div></section>
-      </main>
-
-      <footer><a className="brand footer-brand" href="#"><span className="brand-mark">W</span><span>WOODIFY<small>CRAFT · CONNECT · PERSONALIZE</small></span></a><p>Made with intention. Connected with a tap.</p><div className="socials"><a href="#customize" aria-label="Contact"><MessageCircle/></a><a href="#collection" aria-label="Instagram"><Instagram/></a><a href="#collection" aria-label="Facebook"><Facebook/></a></div><small className="copyright">© {new Date().getFullYear()} WOODIFY. All rights reserved.</small></footer>
-    </div>
-  );
+function Wordmark(){return <a className="wordmark" href="#home" aria-label="WOODIFY home">WOODIFY<span>®</span></a>}
+function Piece({kind=0, finish=0, pattern='Natural grain', name='YOUR NAME', logo}: {kind?:number;finish?:number;pattern?:string;name?:string;logo?:string}) {
+ return <div className={`piece piece-${kind} finish-${finish} pattern-${patterns.indexOf(pattern)}`} role="img" aria-label={`${finishes[finish].name} ${products[kind]} design preview`}>
+ {kind===1&&<span className="keyring"/>}<div className="engraving">{logo?<img src={logo} alt="Your uploaded logo preview"/>:<span className="engraved-mark">w<span>.</span></span>}<span className="piece-name">{kind===2?'A LITTLE SOMETHING':name||'YOUR NAME'}</span><span className="piece-small">{kind===2?'JUST FOR YOU':'MAKE YOUR MARK'}</span></div>{kind===0&&<Radio className="piece-nfc" size={23}/>}<span className="piece-brand">WOODIFY</span></div>
+}
+export default function App(){
+ const [menu,setMenu]=useState(false); const [product,setProduct]=useState(0);const [finish,setFinish]=useState(0);const [pattern,setPattern]=useState(patterns[0]);const [name,setName]=useState(''); const [logo,setLogo]=useState<File|null>(null);const [preview,setPreview]=useState('');const [fileError,setFileError]=useState('');const [status,setStatus]=useState<'idle'|'sending'|'success'|'error'>('idle');const [faq,setFaq]=useState<number|null>(0);const formRef=useRef<HTMLFormElement>(null);
+ useEffect(()=>{if(!logo){setPreview('');return;}const url=URL.createObjectURL(logo);setPreview(url);return()=>URL.revokeObjectURL(url)},[logo]);
+ useEffect(()=>{const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));return()=>observer.disconnect()},[]);
+ function selectProduct(index:number){setProduct(index);document.getElementById('create')?.scrollIntoView({behavior:'smooth'})}
+ async function submit(event:FormEvent<HTMLFormElement>){event.preventDefault();if(fileError)return;setStatus('sending');try{const response=await fetch('/__forms.html',{method:'POST',body:new FormData(event.currentTarget)});if(!response.ok)throw new Error('Request failed');setStatus('success')}catch{setStatus('error')}}
+ const whatsAppUrl=brandContact.whatsapp?`https://wa.me/${brandContact.whatsapp}?text=${encodeURIComponent('Hello WOODIFY, I would love to create a personalized wooden piece.')}`:'';
+ return <><a className="skip" href="#main">Skip to content</a><div className="announcement">NATURALLY DISTINCTIVE. UNIQUELY YOURS. <span>PERSONALIZED WOODEN GOODS</span></div>
+ <header className="header"><Wordmark/><nav className={menu?'navigation open':'navigation'} id="navigation">{[['Collection','collection'],['Make it yours','create'],['Our story','story']].map(([label,id])=><a key={id} href={`#${id}`} onClick={()=>setMenu(false)}>{label}</a>)}<a className="nav-contact" href="#contact" onClick={()=>setMenu(false)}>Let’s talk <ArrowUpRight size={15}/></a></nav><button className="menu-toggle" aria-label={menu?'Close menu':'Open menu'} aria-expanded={menu} aria-controls="navigation" onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></header>
+ <main id="main"><section className="hero" id="home"><div className="hero-grain"/><div className="hero-content"><div className="eyebrow"><span className="tiny-line"/> CRAFTED BY NATURE. MADE FOR YOU.</div><h1>A natural way<br/>to leave a<br/><em>lasting impression.</em></h1><p>Wood with character. Details with meaning.<br/>Personalized pieces that connect you to what matters.</p><a className="button gold" href="#collection">Discover the collection <ArrowUpRight size={18}/></a><a className="hero-text-link" href="#create">Make something personal <ArrowRight size={16}/></a></div><div className="hero-stage"><div className="hero-orbit"/><div className="hero-card back"><Piece name="CRAFT. CONNECT. PERSONALIZE." finish={1}/></div><div className="hero-card front"><Piece name="ALEX MORGAN"/></div><div className="nfc-label"><span><Radio size={20}/></span><div>MORE THAN A BUSINESS CARD<small>One tap. A world of connections.</small></div></div><span className="stage-caption">THE SIGNATURE WOODEN NFC CARD — 01</span></div><div className="hero-bottom"><span>CRAFT. CONNECT. PERSONALIZE.</span><a href="#collection">SCROLL TO EXPLORE <ArrowDown size={13}/></a><span>THOUGHTFULLY MADE, JUST FOR YOU</span></div></section>
+ <div className="values-strip"><span><Leaf/> Naturally individual</span><i/><span><Fingerprint/> Made personal</span><i/><span><Radio/> Smart by nature</span><i/><span><Sparkles/> Designed to be kept</span></div>
+ <section className="collection section" id="collection"><div className="section-heading reveal"><div><div className="eyebrow">THE COLLECTION / 01</div><h2>Every piece.<br/><em>A little more you.</em></h2></div><div className="heading-aside"><p>Everyday objects, made extraordinary.<br/>Discover natural materials with a personal story.</p><a className="text-link" href="#create">Create your own <ArrowUpRight size={17}/></a></div></div><div className="collection-grid">{[{title:'The signature connection.',name:'Wooden NFC Cards',text:'A thoughtful introduction. A smarter connection.',tag:'THE MODERN ESSENTIAL'}, {title:'Carry a little meaning.',name:'Custom Keychains',text:'Your name, your brand, your everyday companion.',tag:'SMALL DETAILS. BIG CHARACTER.'},{title:'For moments that matter.',name:'Personalized Gifts',text:'Meaningful keepsakes, made for someone special.',tag:'SOMETHING WORTH KEEPING'}].map((p,i)=><article className={`product product-${i} reveal`} key={p.name}><button className="product-art" onClick={()=>selectProduct(i)} aria-label={`Personalize ${p.name}`}><span className="product-tag">{p.tag}</span><div className="product-object"><Piece kind={i} finish={i===2?1:0} name="YOUR STORY"/></div><span className="art-label">WOODIFY ATELIER <span>0{i+1}</span></span></button><div className="product-info"><div><h3>{p.name}</h3><p>{p.text}</p></div><button aria-label={`Design ${p.name}`} onClick={()=>selectProduct(i)}><ArrowUpRight size={21}/></button></div></article>)}</div><p className="collection-note">Natural grain makes every piece one of a kind. Product visuals are design illustrations.</p></section>
+ <section className="connection"><div className="connection-art"><div className="phone"><div className="phone-speaker"/><div className="phone-screen"><span className="phone-time">9:41</span><span className="phone-monogram">w.</span><b>Your next connection<br/>starts here.</b><span>Your name · Your story</span><div className="phone-button">Save contact <Plus size={12}/></div><div className="phone-links">Website <ArrowUpRight size={12}/></div><div className="phone-links">Let’s connect <ArrowUpRight size={12}/></div><small>POWERED BY A SIMPLE TAP</small></div></div><div className="tap-card"><Piece name="YOUR NEXT CHAPTER"/></div><div className="tap-symbol"><Radio/></div></div><div className="connection-copy reveal"><div className="eyebrow">NATURAL MATERIAL. MODERN CONNECTION.</div><h2>First impressions.<br/><em>Reimagined.</em></h2><p>A card that feels as considered as your work. Bring the warmth of wood to the way you introduce yourself, with NFC technology that shares your chosen link in a tap.</p><div className="connection-steps"><span><b>01</b> Make it yours</span><span><b>02</b> Add your link</span><span><b>03</b> Tap to connect</span></div><a className="text-link" href="#create" onClick={()=>setProduct(0)}>Design your NFC card <ArrowUpRight size={17}/></a><small className="compatibility">For NFC-enabled smartphones. Device settings and compatibility may vary.</small></div></section>
+ <section className="customize section" id="create"><div className="section-heading reveal"><div><div className="eyebrow">YOUR VISION, OUR CRAFT / 02</div><h2>Made of wood.<br/><em>Made for you.</em></h2></div><p>Choose the details. Add your personality.<br/>We’ll help bring your piece to life.</p></div><div className="custom-layout"><aside className="preview-panel"><div className="preview-heading"><span>YOUR PIECE, REIMAGINED</span><span className="live"><i/> LIVE PREVIEW</span></div><div className={`preview-stage preview-kind-${product}`}><Piece kind={product} finish={finish} pattern={pattern} name={name.toUpperCase()} logo={preview}/></div><div className="preview-meta"><span>{products[product]}</span><span>{finishes[finish].name}</span></div><p>This is an illustrative preview. Wood grain and engraving vary naturally. Final artwork and pricing are confirmed with you before production.</p><div className="preview-promise"><Fingerprint size={21}/><span>Your story, in every detail.</span></div></aside>
+ <form ref={formRef} className="order-form" name="woodify-order" method="POST" encType="multipart/form-data" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit}><input type="hidden" name="form-name" value="woodify-order"/><input type="hidden" name="product" value={products[product]}/><input type="hidden" name="finish" value={finishes[finish].name}/><input type="hidden" name="pattern" value={pattern}/><p hidden><label>Leave this empty<input name="bot-field"/></label></p>
+ <fieldset><legend><span>01</span> Choose your canvas</legend><div className="product-options">{products.map((p,i)=><button type="button" key={p} className={product===i?'selected':''} aria-pressed={product===i} onClick={()=>setProduct(i)}>{p}{product===i&&<Check size={14}/>}</button>)}</div></fieldset>
+ <fieldset><legend><span>02</span> Find your finish</legend><div className="finish-label">WOOD & COLOUR <span>{finishes[finish].name}</span></div><div className="swatches">{finishes.map((f,i)=><button key={f.name} type="button" aria-label={f.name} aria-pressed={finish===i} title={f.name} className={finish===i?'active':''} style={{backgroundColor:f.color}} onClick={()=>setFinish(i)}>{finish===i&&<Check size={18}/>}</button>)}</div><label className="field-label">ENGRAVING STYLE<select value={pattern} onChange={e=>setPattern(e.target.value)}>{patterns.map(p=><option key={p}>{p}</option>)}</select></label></fieldset>
+ <fieldset><legend><span>03</span> Add your signature</legend><div className="fields-row"><label>NAME TO ENGRAVE<input name="engraving" maxLength={35} value={name} onChange={e=>setName(e.target.value)} placeholder="Your name or brand"/></label><label>QUANTITY<input name="quantity" type="number" min="1" max="10000" defaultValue="1" required/></label></div><label className="upload"><Upload size={21}/><span>{logo?logo.name:'Upload your logo or artwork'}<small>PNG or JPG · Maximum 5 MB · Optional</small></span><input type="file" name="logo" accept="image/png,image/jpeg" onChange={e=>{const f=e.target.files?.[0];if(f&&(f.size>5*1024*1024||!['image/png','image/jpeg'].includes(f.type))){setFileError('Please select a PNG or JPG file smaller than 5 MB.');setLogo(null);e.target.value='';return;}setFileError('');setLogo(f||null)}}/>{logo?<Check size={18}/>:<Plus size={18}/>}</label>{fileError&&<p className="error" role="alert">{fileError}</p>}<label>NFC DESTINATION / WEBSITE <span className="optional">OPTIONAL</span><input name="nfc-link" type="url" placeholder="https://your-website.com"/></label></fieldset>
+ <fieldset><legend><span>04</span> Let’s make it happen</legend><div className="fields-row"><label>FULL NAME<input name="name" autoComplete="name" placeholder="Your full name" required maxLength={100}/></label><label>EMAIL ADDRESS<input name="email" type="email" autoComplete="email" placeholder="you@example.com" required/></label></div><div className="fields-row"><label>PHONE / WHATSAPP<input name="phone" type="tel" autoComplete="tel" placeholder="Include country code" maxLength={30}/></label><label>PREFERRED CONTACT<select name="contact-method"><option>Email</option><option>WhatsApp</option></select></label></div><label>A LITTLE ABOUT YOUR IDEA<textarea name="message" rows={3} maxLength={3000} placeholder="An occasion, a special detail, a question…"/></label><label className="consent"><input type="checkbox" name="consent" value="yes" required/><span>I agree to share my details and artwork with WOODIFY for this enquiry.</span></label></fieldset>
+ <button className="button dark submit" disabled={status==='sending'||!!fileError||status==='success'} type="submit">{status==='sending'?'Sending your request…':status==='success'?'Request received':'Request your custom piece'}{status==='success'?<CheckCircle2 size={18}/>:<ArrowUpRight size={18}/>}</button><p className="form-note">A conversation, not a commitment. No payment required.</p>{status==='success'&&<div className="status success" role="status"><CheckCircle2/><div><b>Something personal starts here.</b><p>Your enquiry and any attached artwork have been submitted. WOODIFY can now review the details and contact you.</p><button type="button" onClick={()=>setStatus('idle')}>Send another enquiry <ArrowRight size={14}/></button></div></div>}{status==='error'&&<p className="status error" role="alert">Your request could not be sent. Your details are still here; please try again.</p>}</form></div></section>
+ <section className="story" id="story"><div className="story-image"><span className="story-image-label">NATURE NEVER MAKES<br/>THE SAME THING TWICE.</span><div className="growth-rings"/><span className="story-image-foot">AND NEITHER SHOULD YOUR STORY.</span></div><div className="story-copy reveal"><div className="eyebrow">THE ROOTS OF WOODIFY / 03</div><h2>A love for wood.<br/><em>A feel for the personal.</em></h2><p>We believe the objects you carry and the gifts you give should mean something. A name. A connection. A moment worth holding onto.</p><p>WOODIFY brings natural wood and personal expression together. From an NFC card that opens a conversation to a small keepsake that says so much, we create pieces with a purpose: to make the everyday feel more like you.</p><span className="story-signature">Craft. Connect. Personalize.</span><a className="text-link" href="#create">Let’s create your story <ArrowUpRight size={17}/></a></div></section>
+ <section className="faq section"><div><div className="eyebrow">THE FINER DETAILS</div><h2>A few things<br/><em>you might wonder.</em></h2></div><div>{[{q:'How does a wooden NFC card work?',a:'An NFC chip inside the card shares a chosen link when tapped against a compatible, NFC-enabled smartphone. You can request a website, contact page, or social profile. No payment or account is needed to send a design enquiry.'},{q:'Can I use my own logo or design?',a:'Absolutely. Attach a PNG or JPG up to 5 MB to your enquiry. Tell us about any special artwork requirements in the notes. We’ll review engraving suitability and confirm the final design before production.'},{q:'Can I order gifts or pieces for my team?',a:'Yes. Select your product, enter the quantity, and share your occasion or branding ideas. We’ll discuss design options and a quote for your request.'},{q:'What happens after I send an enquiry?',a:'Your request and any attached artwork are submitted to WOODIFY for review. Pricing, artwork, production timing, and delivery arrangements are confirmed with you before an order proceeds.'}].map((item,i)=><div className="faq-item" key={item.q}><button aria-expanded={faq===i} aria-controls={`faq-${i}`} onClick={()=>setFaq(faq===i?null:i)}>{item.q}<Plus className={faq===i?'rotated':''} size={18}/></button><div id={`faq-${i}`} hidden={faq!==i}><p>{item.a}</p></div></div>)}</div></section>
+ <section className="contact" id="contact"><div className="eyebrow">GOOD THINGS START WITH A CONVERSATION</div><h2>Have something<br/><em>in mind?</em></h2><p>A single piece. A thoughtful gift. Something entirely your own.<br/>Let’s talk about making it happen.</p>{whatsAppUrl?<a className="button gold" href={whatsAppUrl} target="_blank" rel="noreferrer"><MessageCircle size={18}/> Let’s talk on WhatsApp <ArrowUpRight size={18}/></a>:<a className="button gold" href="#create" onClick={()=>{const el=formRef.current?.elements.namedItem('contact-method') as HTMLSelectElement|null;if(el)el.value='WhatsApp'}}><MessageCircle size={18}/> Request a WhatsApp conversation <ArrowUpRight size={18}/></a>}<span className="contact-note">{whatsAppUrl?'YOUR IDEA. OUR NEXT CONVERSATION.':'Leave your number in the enquiry form and choose WhatsApp.'}</span></section>
+ </main><footer><div className="footer-top"><div><Wordmark/><p>Thoughtfully wooden. Uniquely yours.</p></div><div className="footer-links"><a href="#collection">The collection</a><a href="#create">Personalize</a><a href="#story">Our story</a><a href="#contact">Get in touch <ArrowUpRight size={13}/></a></div><div className="footer-social">{brandContact.instagram&&<a href={brandContact.instagram} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={14}/></a>}{brandContact.facebook&&<a href={brandContact.facebook} target="_blank" rel="noreferrer">Facebook <ArrowUpRight size={14}/></a>}<span>CRAFT. CONNECT.<br/>PERSONALIZE.</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} WOODIFY. All rights reserved.</span><span>NATURAL CHARACTER. PERSONAL CONNECTION.</span><a href="#home">Back to top <ArrowUpRight size={13}/></a></div></footer></>
 }
