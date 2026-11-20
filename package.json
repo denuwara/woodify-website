@@ -9,7 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@netlify/database": "^2.0.3",
+    "@netlify/identity": "^2.0.1",
+    "@netlify/server": "^0.1.6",
     "@vitejs/plugin-react": "latest",
+    "drizzle-orm": "^1.0.0-beta.22",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -19,6 +23,7 @@
   "devDependencies": {
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0"
+    "@types/react-dom": "^19.3.0",
+    "drizzle-kit": "^1.0.0-beta.22"
   }
 }
